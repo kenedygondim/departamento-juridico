@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Arquivos de Cabeçalho">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Arquivos de Recurso">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Arquivos de Cabeçalho\Arquivos de Origem">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Arquivos de Cabeçalho\Arquivos de Origem\include">
+      <UniqueIdentifier>{bb837c37-af05-4139-9b9c-625abad1c9e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Arquivos de Cabeçalho\Arquivos de Origem\src">
+      <UniqueIdentifier>{ebe63ad1-8fb5-4809-a025-ab77f88785c4}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.c">
+      <Filter>Arquivos de Cabeçalho\Arquivos de Origem</Filter>
+    </ClCompile>
+    <ClCompile Include="global.h">
+      <Filter>Arquivos de Cabeçalho\Arquivos de Origem\include</Filter>
+    </ClCompile>
+    <ClCompile Include="global.c">
+      <Filter>Arquivos de Cabeçalho\Arquivos de Origem\src</Filter>
+    </ClCompile>
+    <ClCompile Include="casosAtribuidos.c">
+      <Filter>Arquivos de Cabeçalho\Arquivos de Origem\src</Filter>
+    </ClCompile>
+    <ClCompile Include="estagiario.c">
+      <Filter>Arquivos de Cabeçalho\Arquivos de Origem\src</Filter>
+    </ClCompile>
+    <ClCompile Include="advogado.c">
+      <Filter>Arquivos de Cabeçalho\Arquivos de Origem\src</Filter>
+    </ClCompile>
+    <ClCompile Include="disponibilidade.c">
+      <Filter>Arquivos de Cabeçalho\Arquivos de Origem\src</Filter>
+    </ClCompile>
+    <ClCompile Include="agenda.c">
+      <Filter>Arquivos de Cabeçalho\Arquivos de Origem\src</Filter>
+    </ClCompile>
+    <ClCompile Include="triagem.c">
+      <Filter>Arquivos de Cabeçalho\Arquivos de Origem\src</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="triagem.h">
+      <Filter>Arquivos de Cabeçalho\Arquivos de Origem\include</Filter>
+    </ClInclude>
+    <ClInclude Include="casosAtribuidos.h">
+      <Filter>Arquivos de Cabeçalho\Arquivos de Origem\include</Filter>
+    </ClInclude>
+    <ClInclude Include="estagiario.h">
+      <Filter>Arquivos de Cabeçalho\Arquivos de Origem\include</Filter>
+    </ClInclude>
+    <ClInclude Include="advogado.h">
+      <Filter>Arquivos de Cabeçalho\Arquivos de Origem\include</Filter>
+    </ClInclude>
+    <ClInclude Include="disponibilidade.h">
+      <Filter>Arquivos de Cabeçalho\Arquivos de Origem\include</Filter>
+    </ClInclude>
+    <ClInclude Include="agenda.h">
+      <Filter>Arquivos de Cabeçalho\Arquivos de Origem\include</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
