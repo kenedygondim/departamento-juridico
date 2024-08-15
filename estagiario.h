@@ -13,10 +13,10 @@ typedef struct {
 
 void adicionarEstagiario();
 void gerarCodEstagiario(Estagiario *estagiario);
-int retornaUltimoCodEstag();
+int retornarUltimoCodEstag();
 int obterTodosOsEstagiarios();
 void gerarRelatorioEstag(Estagiario* estagiario);
-void verTodosEstagiarios();
-Estagiario verEstagiarioEspecifico(int codEstag);
+void mostrarTodosEstagiarios();
+Estagiario retornarEstagiarioEspecifico(int codEstag);
 #endif
 

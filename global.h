@@ -2,8 +2,7 @@
 #define GLOBAL_H
 
 void limparBuffer(void);
-void gerarDataAtual(char* buffer, size_t size);
-void gerarDataAtualMaisUm(char* buffer, size_t size);
+void gerarData(char* buffer, size_t size, int acresDias);
 void gerarHoraAtual(char* buffer, size_t size);
 int retornarDiaSemana();
 

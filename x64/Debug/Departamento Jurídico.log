@@ -1,46 +1,24 @@
 ﻿  triagem.c
-C:\Users\kened\OneDrive\Documentos\C(31,3): warning C4013: 'system' indefinido; assumindo extern retornando int
-C:\Users\kened\OneDrive\Documentos\C(32,3): warning C4013: 'exit' indefinido; assumindo extern retornando int
-C:\Users\kened\OneDrive\Documentos\C(165,24): warning C4477: 'scanf': a cadeia de formato '%1f' requer um argumento do tipo 'float *', mas um argumento variadic 1 tem o tipo 'int *'
-C:\Users\kened\OneDrive\Documentos\C(175,23): warning C4477: 'scanf': a cadeia de formato '%1f' requer um argumento do tipo 'float *', mas um argumento variadic 1 tem o tipo 'int *'
-C:\Users\kened\OneDrive\Documentos\C(202,24): warning C4477: 'scanf': a cadeia de formato '%1f' requer um argumento do tipo 'float *', mas um argumento variadic 1 tem o tipo 'double *'
-  C:\Users\kened\OneDrive\Documentos\C(202,24):
-  considere usar '%lf' na cadeia de formato
-  
-C:\Users\kened\OneDrive\Documentos\C(212,23): warning C4477: 'scanf': a cadeia de formato '%1f' requer um argumento do tipo 'float *', mas um argumento variadic 1 tem o tipo 'double *'
-  C:\Users\kened\OneDrive\Documentos\C(212,23):
-  considere usar '%lf' na cadeia de formato
-  
-C:\Users\kened\OneDrive\Documentos\C(218,9): warning C4477: 'scanf': a cadeia de formato '%1f' requer um argumento do tipo 'float *', mas um argumento variadic 1 tem o tipo 'double *'
-  C:\Users\kened\OneDrive\Documentos\C(218,9):
-  considere usar '%lf' na cadeia de formato
-  
-C:\Users\kened\OneDrive\Documentos\C(229,24): warning C4477: 'scanf': a cadeia de formato '%1f' requer um argumento do tipo 'float *', mas um argumento variadic 1 tem o tipo 'double *'
-  C:\Users\kened\OneDrive\Documentos\C(229,24):
-  considere usar '%lf' na cadeia de formato
-  
-C:\Users\kened\OneDrive\Documentos\C(243,24): warning C4477: 'scanf': a cadeia de formato '%1f' requer um argumento do tipo 'float *', mas um argumento variadic 1 tem o tipo 'double *'
-  C:\Users\kened\OneDrive\Documentos\C(243,24):
-  considere usar '%lf' na cadeia de formato
-  
-C:\Users\kened\OneDrive\Documentos\C(257,24): warning C4477: 'scanf': a cadeia de formato '%1f' requer um argumento do tipo 'float *', mas um argumento variadic 1 tem o tipo 'double *'
-  C:\Users\kened\OneDrive\Documentos\C(257,24):
-  considere usar '%lf' na cadeia de formato
-  
-C:\Users\kened\OneDrive\Documentos\C(271,24): warning C4477: 'scanf': a cadeia de formato '%1f' requer um argumento do tipo 'float *', mas um argumento variadic 1 tem o tipo 'double *'
-  C:\Users\kened\OneDrive\Documentos\C(271,24):
-  considere usar '%lf' na cadeia de formato
-  
-C:\Users\kened\OneDrive\Documentos\C(285,24): warning C4477: 'scanf': a cadeia de formato '%1f' requer um argumento do tipo 'float *', mas um argumento variadic 1 tem o tipo 'double *'
-  C:\Users\kened\OneDrive\Documentos\C(285,24):
-  considere usar '%lf' na cadeia de formato
-  
-C:\Users\kened\OneDrive\Documentos\C(299,24): warning C4477: 'scanf': a cadeia de formato '%1f' requer um argumento do tipo 'float *', mas um argumento variadic 1 tem o tipo 'double *'
-  C:\Users\kened\OneDrive\Documentos\C(299,24):
-  considere usar '%lf' na cadeia de formato
-  
-C:\Users\kened\OneDrive\Documentos\C(313,24): warning C4477: 'scanf': a cadeia de formato '%1f' requer um argumento do tipo 'float *', mas um argumento variadic 1 tem o tipo 'double *'
-  C:\Users\kened\OneDrive\Documentos\C(313,24):
-  considere usar '%lf' na cadeia de formato
-  
+C:\Users\kened\OneDrive\Documentos\C(212,10): warning C4477: 'scanf': a cadeia de formato '%d' requer um argumento do tipo 'int *', mas um argumento variadic 1 tem o tipo 'double *'
+C:\Users\kened\OneDrive\Documentos\C(228,9): warning C4477: 'scanf': a cadeia de formato '%d' requer um argumento do tipo 'int *', mas um argumento variadic 1 tem o tipo 'double *'
+C:\Users\kened\OneDrive\Documentos\C(235,9): warning C4477: 'scanf': a cadeia de formato '%d' requer um argumento do tipo 'int *', mas um argumento variadic 1 tem o tipo 'double *'
+C:\Users\kened\OneDrive\Documentos\C(246,9): warning C4477: 'scanf': a cadeia de formato '%d' requer um argumento do tipo 'int *', mas um argumento variadic 1 tem o tipo 'double *'
+C:\Users\kened\OneDrive\Documentos\C(260,9): warning C4477: 'scanf': a cadeia de formato '%d' requer um argumento do tipo 'int *', mas um argumento variadic 1 tem o tipo 'double *'
+C:\Users\kened\OneDrive\Documentos\C(274,9): warning C4477: 'scanf': a cadeia de formato '%d' requer um argumento do tipo 'int *', mas um argumento variadic 1 tem o tipo 'double *'
+C:\Users\kened\OneDrive\Documentos\C(288,9): warning C4477: 'scanf': a cadeia de formato '%d' requer um argumento do tipo 'int *', mas um argumento variadic 1 tem o tipo 'double *'
+C:\Users\kened\OneDrive\Documentos\C(302,9): warning C4477: 'scanf': a cadeia de formato '%d' requer um argumento do tipo 'int *', mas um argumento variadic 1 tem o tipo 'double *'
+C:\Users\kened\OneDrive\Documentos\C(316,9): warning C4477: 'scanf': a cadeia de formato '%d' requer um argumento do tipo 'int *', mas um argumento variadic 1 tem o tipo 'double *'
+C:\Users\kened\OneDrive\Documentos\C(330,9): warning C4477: 'scanf': a cadeia de formato '%d' requer um argumento do tipo 'int *', mas um argumento variadic 1 tem o tipo 'double *'
+C:\Users\kened\OneDrive\Documentos\C(359,3): warning C4013: 'system' indefinido; assumindo extern retornando int
+C:\Users\kened\OneDrive\Documentos\C(360,3): warning C4013: 'exit' indefinido; assumindo extern retornando int
+C:\Users\kened\OneDrive\Documentos\C(544,43): warning C4477: 'printf': a cadeia de formato '%d' requer um argumento do tipo 'int', mas um argumento variadic 1 tem o tipo 'double'
+C:\Users\kened\OneDrive\Documentos\C(545,9): warning C4477: 'printf': a cadeia de formato '%d' requer um argumento do tipo 'int', mas um argumento variadic 1 tem o tipo 'double'
+C:\Users\kened\OneDrive\Documentos\C(546,9): warning C4477: 'printf': a cadeia de formato '%d' requer um argumento do tipo 'int', mas um argumento variadic 1 tem o tipo 'double'
+C:\Users\kened\OneDrive\Documentos\C(548,44): warning C4477: 'printf': a cadeia de formato '%d' requer um argumento do tipo 'int', mas um argumento variadic 1 tem o tipo 'double'
+C:\Users\kened\OneDrive\Documentos\C(550,46): warning C4477: 'printf': a cadeia de formato '%d' requer um argumento do tipo 'int', mas um argumento variadic 1 tem o tipo 'double'
+C:\Users\kened\OneDrive\Documentos\C(552,45): warning C4477: 'printf': a cadeia de formato '%d' requer um argumento do tipo 'int', mas um argumento variadic 1 tem o tipo 'double'
+C:\Users\kened\OneDrive\Documentos\C(554,46): warning C4477: 'printf': a cadeia de formato '%d' requer um argumento do tipo 'int', mas um argumento variadic 1 tem o tipo 'double'
+C:\Users\kened\OneDrive\Documentos\C(556,42): warning C4477: 'printf': a cadeia de formato '%d' requer um argumento do tipo 'int', mas um argumento variadic 1 tem o tipo 'double'
+C:\Users\kened\OneDrive\Documentos\C(558,50): warning C4477: 'printf': a cadeia de formato '%d' requer um argumento do tipo 'int', mas um argumento variadic 1 tem o tipo 'double'
+C:\Users\kened\OneDrive\Documentos\C(560,42): warning C4477: 'printf': a cadeia de formato '%d' requer um argumento do tipo 'int', mas um argumento variadic 1 tem o tipo 'double'
   Departamento Jurídico.vcxproj -> C:\Users\kened\OneDrive\Documentos\C#\Departamento Jurídico\x64\Debug\Departamento Jurídico.exe

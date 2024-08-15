@@ -14,10 +14,10 @@ typedef struct {
 } Advogado;
 
 void adicionarAdvogado();
-void verTodosAdvogados();
+void mostrarTodosAdvogados();
 int obterTodosAdvogados();
 void gerarRelatorioAdv(Advogado *advogado);
-Advogado verAdvogadoEspecifico(int oab);
+Advogado retornarAdvogadoEspecifico(int oab);
 void ordenaAdvOab(Advogado* advogados, int tamanho_vetor);
 
 #endif

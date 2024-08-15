@@ -1,87 +1,77 @@
 #define _CRT_SECURE_NO_WARNINGS //desabilita alertas de unsafe
 
 //Bibliotecas
-#include <stdio.h> 
+#include <stdio.h> // Biblioteca padrão de entrada e saída
 #include <stdbool.h> //Utilizado para verificações booleanas
-#include <string.h>
+#include <string.h>  //inclui funções para copiar (strcpy), concatenar (strcat), comparar (strcmp)
 
 //Módulos
-#include "triagem.h"
-#include "global.h"
+#include "triagem.h" 
+#include "global.h" 
 #include "estagiario.h"
 
 //Variáveis globais
-double salMinimo = 1412.36;
-FILE* arquivoCasos;
-triagem atendimento;
-Estagiario estag;
-
+double salMinimo = 1412.36; // Variável que será utilizada no cálculo da renda familiar
+FILE* arquivoCasos; // Ponteiro para o arquivo CLIENTES.DAT, será utilizado para resgatar, gravar e atualizar os dados dos atendimentos
+triagem atendimento; // Variável que armazenará os dados do atendimento
+Estagiario estag; // Servirá para verificar se o estagiário é valido e se é atendente ou não.
 
 
 void realizarTriagem() {
+	//Variáveis temporárias (Usadas para verificações de entrada do usuário)
+	int tempCodEstag;
+	char tempTipoPessoa;
 
+	
 	printf("\n----------- TRIAGEM DE CASO -------------\n");
+	
+	//Atribui um código do atendimento válido
+	atendimento.codAtendimento = retornarCodAtendimento();
 
-	int codAtend = gerarCodAtendimento();
-
-
-	if (arquivoCasos == NULL)
-	{
-		printf("Erro ao abrir CLIENTES.DAT\n");
-		system("pause");
-		exit(0);
-	};
-
-	atendimento.codAtendimento = codAtend;
-	gerarDataAtual(atendimento.data, sizeof(atendimento.data));
+	//Gera a data e hora do atendimento 
+	gerarData(atendimento.data, sizeof(atendimento.data), 0);
 	gerarHoraAtual(atendimento.horaAtendimento, sizeof(atendimento.horaAtendimento));
 
-	int codEstag;
-	char tipoPessoa;
-
+	//Enquanto o estagiário não for um atendente, o código do estagiário é solicitado novamente
 	do
 	{
 		printf("Digite o código do estagiário: ");
-		scanf("%d", &codEstag);
+		scanf("%d", &tempCodEstag);
 		limparBuffer();
-		estag = verEstagiarioEspecifico(codEstag);
-
-		if (estag.tipo != 'A') {
+		estag = retornarEstagiarioEspecifico(tempCodEstag);
+		if (estag.tipo != 'A')
 			printf("Somente estagiários atendentes podem realizar a triagem.\n\n");
-		}
-
 	} while (estag.tipo != 'A');
-
-	atendimento.codEstagiario = codEstag;
-
+	//Atribui o código do estagiário ao atendimento
+	atendimento.codEstagiario = tempCodEstag;
 
 	printf("\nHorário que o atendido chegou (hh:mm): ");
 	fgets(atendimento.horaChegada, sizeof(atendimento.horaChegada), stdin);
 	atendimento.horaChegada[strcspn(atendimento.horaChegada, "\n")] = '\0';
-
 	printf("\nFonte de informacão do servico: ");
 	fgets(atendimento.fonteInformacaoServico, sizeof(atendimento.fonteInformacaoServico), stdin);
 	atendimento.fonteInformacaoServico[strcspn(atendimento.fonteInformacaoServico, "\n")] = '\0';
 
+	//Verifica se o tipo de pessoa é válido (Física ou Jurídica)
+	//Adicionar campo de CNPJ caso seja pessoa jurídica posteriormente
 	do {
 		printf("\nTipo de pessoa (F/J): ");
-		tipoPessoa = getchar();
+		tempTipoPessoa = getchar(); // O comportamento do getchar é de consumir o caracterer. Se não for capturado por uma variável, o valor será perdido.
 		limparBuffer();
-
-		if (tipoPessoa != 'F' && tipoPessoa != 'J') printf("Tipo de pessoa inválido. Digite F para pessoa física ou J para pessoa jurídica.\n");
-
-	} while (tipoPessoa != 'F' && tipoPessoa != 'J');
-
-	atendimento.tipoPessoa = tipoPessoa;
+		if (tempTipoPessoa != 'F' && tempTipoPessoa != 'J') printf("Tipo de pessoa inválido. Digite F para pessoa física ou J para pessoa jurídica.\n");
+	} while (tempTipoPessoa != 'F' && tempTipoPessoa != 'J');
+	//Atribui o tipo de pessoa ao atendimento
+	atendimento.tipoPessoa = tempTipoPessoa;
 
 	printf("\nNome do atendido: ");
 	fgets(atendimento.nome, sizeof(atendimento.nome), stdin);
 	atendimento.nome[strcspn(atendimento.nome, "\n")] = '\0';
-
 	printf("\nGênero: ");
 	fgets(atendimento.genero, sizeof(atendimento.genero), stdin);
 	atendimento.genero[strcspn(atendimento.genero, "\n")] = '\0';
 
+	//Adicionar verificação (Só se quiser) qualquer coisa diferente de 'S' vai ser setado com false:
+	//Se adicionar verificação, criar variavel temporaria para consumir o getchar
 	printf("\nPertence a comunidade LGBTQIA+? (S/N): ");
 	if (getchar() == 'S') atendimento.comLgbt = true;
 	else atendimento.comLgbt = false;
@@ -90,57 +80,59 @@ void realizarTriagem() {
 	printf("\nCor/Raça: ");
 	fgets(atendimento.corRaca, sizeof(atendimento.corRaca), stdin);
 	atendimento.corRaca[strcspn(atendimento.corRaca, "\n")] = '\0';
-
 	printf("\nData de nascimento: ");
 	fgets(atendimento.dataNascimento, sizeof(atendimento.dataNascimento), stdin);
 	atendimento.dataNascimento[strcspn(atendimento.dataNascimento, "\n")] = '\0';
-
 	printf("\nNacionalidade: ");
 	fgets(atendimento.nacionalidade, sizeof(atendimento.nacionalidade), stdin);
 	atendimento.nacionalidade[strcspn(atendimento.nacionalidade, "\n")] = '\0';
-
 	printf("\nNaturalidade: ");
 	fgets(atendimento.naturalidade, sizeof(atendimento.naturalidade), stdin);
 	atendimento.naturalidade[strcspn(atendimento.naturalidade, "\n")] = '\0';
 
-	printf("\nCPF: ");
-	fgets(atendimento.cpf, sizeof(atendimento.cpf), stdin);
-	atendimento.cpf[strcspn(atendimento.cpf, "\n")] = '\0';
 
-	printf("\nRG: ");
-	fgets(atendimento.rg, sizeof(atendimento.rg), stdin);
-	atendimento.rg[strcspn(atendimento.rg, "\n")] = '\0';
+	do {
+		printf("\nCPF: ");
+		fgets(atendimento.cpf, sizeof(atendimento.cpf), stdin);
+		atendimento.cpf[strcspn(atendimento.cpf, "\n")] = '\0';
+
+		if (strlen(atendimento.cpf) != 11) printf("\nO CPF deve ter 11 dígitos.");
+
+	} while (strlen(atendimento.cpf) != 11);
+
+	do {
+		printf("\nRG: ");
+		fgets(atendimento.rg, sizeof(atendimento.rg), stdin);
+		atendimento.rg[strcspn(atendimento.rg, "\n")] = '\0';
+
+		if (strlen(atendimento.rg) != 9) printf("\nO RG deve ter 8 dígitos.");
+
+	} while (strlen(atendimento.rg) != 9);
 
 	printf("\nEndereço: ");
 	fgets(atendimento.endereco, sizeof(atendimento.endereco), stdin);
 	atendimento.endereco[strcspn(atendimento.endereco, "\n")] = '\0';
-
 	printf("\nCelular: ");
 	fgets(atendimento.celular, sizeof(atendimento.celular), stdin);
 	atendimento.celular[strcspn(atendimento.celular, "\n")] = '\0';
-
 	printf("\nPossui WhatsApp? (S/N): ");
 	if (getchar() == 'S') atendimento.whatsapp = true;
 	else atendimento.whatsapp = false;
 	limparBuffer();
-
 	printf("\nTelefone alternativo: ");
 	fgets(atendimento.telAlternativo, sizeof(atendimento.telAlternativo), stdin);
 	atendimento.telAlternativo[strcspn(atendimento.telAlternativo, "\n")] = '\0';
-
 	printf("\nE-mail: ");
 	fgets(atendimento.email, sizeof(atendimento.email), stdin);
 	atendimento.email[strcspn(atendimento.email, "\n")] = '\0';
-
 	printf("\nEscolaridade: ");
 	fgets(atendimento.escolaridade, sizeof(atendimento.escolaridade), stdin);
 	atendimento.escolaridade[strcspn(atendimento.escolaridade, "\n")] = '\0';
 
+	//Se o atendido for desempregado, a profissão é setada como desempregado
+	//Alterar se achar conveniente
 	printf("\nO atendido está desempregado? (S/N) ");
-	char resposta = getchar();
-	limparBuffer();
-
-	if (resposta == 'S') {
+	if (getchar() == 'S') {
 		strcpy(atendimento.situacaoProfissional, "Desempregado");
 		strcpy(atendimento.profissao, "Desempregado");
 	}
@@ -151,71 +143,96 @@ void realizarTriagem() {
 		fgets(atendimento.profissao, sizeof(atendimento.profissao), stdin);
 		atendimento.profissao[strcspn(atendimento.profissao, "\n")] = '\0';
 	}
-
+	limparBuffer();
 
 	printf("\nEstado civil: ");
 	fgets(atendimento.estadoCivil, sizeof(atendimento.estadoCivil), stdin);
 	atendimento.estadoCivil[strcspn(atendimento.estadoCivil, "\n")] = '\0';
 
+	//Se o atendido possuir filhos, a quantidade de filhos morando com ele é solicitada.
 	printf("\nPossui filhos? (S/N): ");
 	if (getchar() == 'S')
 	{
 		atendimento.temFilhos = true;
-		printf("\nQuantos filhos moram com você? ");
-		fflush(stdin); scanf("%1f", &atendimento.qtdFilhosMorando);
+		do {
+			printf("\nQuantos filhos moram com você? ");
+			scanf("%i", &atendimento.qtdFilhosMorando);
+			limparBuffer();
+		} while (atendimento.qtdFilhosMorando < 0 || atendimento.qtdFilhosMorando > 30);
 	}
 	else
 	{
 		atendimento.temFilhos = false;
 		atendimento.qtdFilhosMorando = 0;
 	}
-	limparBuffer();
 
-	printf("\nTotal de membros da entidadade familiar: ");
-	fflush(stdin); scanf("%1f", &atendimento.totalMembrosFamilia);
 
+
+	
+
+	do {
+		printf("\nTotal de membros da entidadade familiar: ");
+		scanf("%i", &atendimento.totalMembrosFamilia);
+
+		printf("\n\n %i \n\n", atendimento.totalMembrosFamilia);
+
+		limparBuffer();
+	} while (atendimento.totalMembrosFamilia < 1 || atendimento.totalMembrosFamilia > 30);
+
+
+	////Adicionar verificação (Só se quiser) qualquer coisa diferente de 'S' vai ser setado com false:
+	//Se adicionar verificação, criar variavel temporaria para consumir o getchar
 	printf("\nPossui algum membro da família com deficiência? (S/N): ");
 	if (getchar() == 'S') atendimento.membroFamiliaDeficiencia = true;
 	else atendimento.membroFamiliaDeficiencia = false;
 	limparBuffer();
-
 	printf("\nPossui algum membro da família com Transtorno Global do Desenvolvimento (TGD)? (S/N): ");
 	if (getchar() == 'S') atendimento.membroFamiliarTGD = true;
 	else atendimento.membroFamiliarTGD = false;
 	limparBuffer();
-
 	printf("\nPossui algum membro da família idoso? (S/N): ");
 	if (getchar() == 'S') atendimento.membroFamiliarIdoso = true;
 	else atendimento.membroFamiliarIdoso = false;
 	limparBuffer();
-
 	printf("\nMembro familiar egresso prisional de até 4 meses (S/N): ");
 	if (getchar() == 'S') atendimento.membroFamiliarEgressoPrisional = true;
 	else atendimento.membroFamiliarEgressoPrisional = false;
 	limparBuffer();
 
+	
+
+
 	printf("\nRecebe algum benefício assistencial do governo? (S/N): ");
 	if (getchar() == 'S')
 	{
 		atendimento.recebeBeneficio = true;
-		printf("\nQual o valor do benefício? ");
-		fflush(stdin); scanf("%1f", &atendimento.valorBeneficio);
+		do
+		{
+			printf("\nQual o valor do benefício? ");
+			scanf("%d", &atendimento.valorBeneficio);
+			limparBuffer();
+
+		} while (atendimento.valorBeneficio < 50 && atendimento.valorBeneficio > 5000);
+		
 	}
 	else
 	{
 		atendimento.recebeBeneficio = false;
 		atendimento.valorBeneficio = 0;
+		limparBuffer();
 	}
-	limparBuffer();
+	
 
-	printf("\nValor da renda mensal do assistido: ");
-	fflush(stdin); scanf("%1f", &atendimento.valorRenda);
-
+	do {
+		printf("\nValor da renda mensal do assistido: ");
+		scanf("%d", &atendimento.valorRenda);
+		limparBuffer();
+	} while (atendimento.valorRenda < 0 || atendimento.valorRenda > 1000000);
 
 	do
 	{
 		printf("\nValor total da renda familiar: ");
-		scanf("%1f", &atendimento.totalRendaFamiliar);
+		scanf("%d", &atendimento.totalRendaFamiliar);
 		limparBuffer();
 		if (atendimento.totalRendaFamiliar < 0 || atendimento.totalRendaFamiliar > 1000000) printf("Valor inválido. Digite um valor entre 0 e 1.000.000\n");
 	} while (atendimento.totalRendaFamiliar < 0 || atendimento.totalRendaFamiliar > 1000000);
@@ -226,7 +243,7 @@ void realizarTriagem() {
 	{
 		atendimento.temGastosMedicos = true;
 		printf("\nQual o valor dos gastos médicos? ");
-		fflush(stdin); scanf("%1f", &atendimento.valorGastosMedicos);
+		scanf("%d", &atendimento.valorGastosMedicos);
 	}
 	else
 	{
@@ -240,7 +257,7 @@ void realizarTriagem() {
 	{
 		atendimento.possuiInvestimento = true;
 		printf("\nQual o valor dos investimentos? ");
-		fflush(stdin); scanf("%1f", &atendimento.valorInvestimento);
+		scanf("%d", &atendimento.valorInvestimento);
 	}
 	else
 	{
@@ -254,7 +271,7 @@ void realizarTriagem() {
 	{
 		atendimento.possuiCasaPropria = true;
 		printf("\nQual o valor da casa própria? ");
-		fflush(stdin); scanf("%1f", &atendimento.valorCasaPropria);
+		scanf("%d", &atendimento.valorCasaPropria);
 	}
 	else
 	{
@@ -268,7 +285,7 @@ void realizarTriagem() {
 	{
 		atendimento.possuiApartamento = true;
 		printf("\nQual o valor do apartamento? ");
-		fflush(stdin); scanf("%1f", &atendimento.valorApartamento);
+		scanf("%d", &atendimento.valorApartamento);
 	}
 	else
 	{
@@ -282,7 +299,7 @@ void realizarTriagem() {
 	{
 		atendimento.possuiTerreno = true;
 		printf("\nQual o valor do terreno? ");
-		fflush(stdin); scanf("%1f", &atendimento.valorTerreno);
+		scanf("%d", &atendimento.valorTerreno);
 	}
 	else
 	{
@@ -296,7 +313,7 @@ void realizarTriagem() {
 	{
 		atendimento.possuiImovelComercial = true;
 		printf("\nQual o valor do imóvel comercial? ");
-		fflush(stdin); scanf("%1f", &atendimento.valorImovelComercial);
+		scanf("%d", &atendimento.valorImovelComercial);
 	}
 	else
 	{
@@ -310,7 +327,7 @@ void realizarTriagem() {
 	{
 		atendimento.possuiVeiculo = true;
 		printf("\nQual o valor do veículo? ");
-		fflush(stdin); scanf("%1f", &atendimento.valorVeiculo);
+		scanf("%d", &atendimento.valorVeiculo);
 	}
 	else
 	{
@@ -333,24 +350,40 @@ void realizarTriagem() {
 	atendimento.ramoDireito[strcspn(atendimento.ramoDireito, "\n")] = '\0';
 	verificarPerfilEnquadrado(&atendimento);
 
+	//Abre o arquivo CLIENTES.DAT
 	arquivoCasos = fopen("C:\\Users\\kened\\OneDrive\\Documentos\\C#\\Departamento Jurídico\\data\\CLIENTES.DAT", "a+b");
 
+	if (arquivoCasos == NULL)
+	{
+		printf("Erro ao abrir CLIENTES.DAT\n");
+		system("pause");
+		exit(0);
+	};
+
+	//Grava o atendimento no arquivo CLIENTES.DAT
 	fwrite(&atendimento, sizeof(atendimento), 1, arquivoCasos);
 
+	//Fecha o arquivo CLIENTES.DAT
 	fclose(arquivoCasos);
 
 	printf("\nCASO REGISTRADO NO SISTEMA COM SUCESSO!\n");
+
+	//Exibe o relatório do atendimento
 	gerarRelatorio(&atendimento);
 
 	printf("\n------------------------------------------------------\n");
 
 }
 
-void verificarCasosEmAndamento()
+//Função que simplemente exibe todos os casos em andamento no console
+void mostrarCasosEmAndamento()
 {
 	int count = 0;
+
+	//Abre o arquivo CLIENTES.DAT
 	arquivoCasos = fopen("C:\\Users\\kened\\OneDrive\\Documentos\\C#\\Departamento Jurídico\\data\\CLIENTES.DAT", "r+b");
 
+	// Se por algum motivo o arquivo não puder ser aberto, arquivoCasos será NULL
 	if (arquivoCasos == NULL)
 	{
 		printf("Erro ao abrir CLIENTES.DAT\n");
@@ -360,46 +393,59 @@ void verificarCasosEmAndamento()
 
 	printf("\n----------- LISTA DE CASOS NO SISTEMA -------------\n");
 
+	//Enquanto não chegar ao final do arquivo (feof - end of file)...
 	while (!feof(arquivoCasos))
 	{
+		//...lê o próximo atendimento
 		fread(&atendimento, sizeof(atendimento), 1, arquivoCasos);
 		if (!feof(arquivoCasos))
 		{
+			//Soma o número de atendimentos
 			count++;
+			//Exibe o relatório do atendimento no console
 			gerarRelatorio(&atendimento);
 		}
 		if (count == 0) printf("\nNenhum caso em andamento\n");
-
-
 	}
+
 	count = 0;
 
 	fclose(arquivoCasos);
 
 	printf("\n-------------------------------------------------------\n");
 
-
 	system("pause");
-
 }
 
-triagem verificarCasoEspecifico(int codAtendimento)
+//Função para retornar um caso específico. Pode ser utilizado para buscar uma atribuição de um estagiário, por exemplo.
+//Recebe o código do atendimento como parâmetro
+triagem retornarCasoEspecifico(int codAtendimento)
 {
 	bool encontrado = false;
+
+	//Abre o arquivo CLIENTES.DAT
 	arquivoCasos = fopen("C:\\Users\\kened\\OneDrive\\Documentos\\C#\\Departamento Jurídico\\data\\CLIENTES.DAT", "r+b");
 
+	// Se por algum motivo o arquivo não puder ser aberto, arquivoCasos será NULL
 	if (arquivoCasos == NULL)
 	{
 		printf("Erro ao abrir CLIENTES.DAT\n");
+		system("pause");
 		exit(0);
 	};
 
+	//Enquanto não chegar ao final do arquivo (feof - end of file)...
 	while (!feof(arquivoCasos))
 
 	{
+		//...lê o próximo atendimento
 		fread(&atendimento, sizeof(atendimento), 1, arquivoCasos);
+
 		if (!feof(arquivoCasos))
 		{
+			//Se o código do atendimento for igual ao código passado como parâmetro
+			//o loop é interrompido
+			//o atendimento fica salvo na variável global atendimento
 			if (atendimento.codAtendimento == codAtendimento)
 			{
 				encontrado = true;
@@ -408,6 +454,8 @@ triagem verificarCasoEspecifico(int codAtendimento)
 		}
 	}
 
+
+	//Se o atendimento não for encontrado, exibe mensagem de erro e encerra o programa
 	if (!encontrado) {
 		printf("Nenhum caso encontrado com o código de atendimento %d\n\n", codAtendimento);
 		system("pause");
@@ -419,33 +467,45 @@ triagem verificarCasoEspecifico(int codAtendimento)
 	return atendimento;
 }
 
-
-int gerarCodAtendimento()
+//Função utilizada para gerar o código do atendimento e retorná-lo
+int retornarCodAtendimento()
 {
-	triagem ultimoAtendimento;
+	triagem ultimoAtendimento; //Variável que armazenará o último atendimento registrado
 
+	//Abre o arquivo CLIENTES.DAT
 	arquivoCasos = fopen("C:\\Users\\kened\\OneDrive\\Documentos\\C#\\Departamento Jurídico\\data\\CLIENTES.DAT", "r+b");
 
+	// Se por algum motivo o arquivo não puder ser aberto, arquivoCasos será sempre NULL
+	// Causas mais comuns : arquivo não existe, caminho do arquivo incorreto, arquivo aberto em outro local
 	if (arquivoCasos == NULL)
 	{
 		printf("Erro ao abrir CLIENTES.DAT\n");
 		system("pause");
+		// O programa será encerrado completamente. **Pode ser utilizada outra abordagem.
 		exit(0);
 	};
 
-	//Acessa a última linha do aquivo
+	//Passando pelo IF anterior, o arquivo foi aberto com sucesso.
+	//fseek é usada para mover o cursor de leitura/escrita para uma posição específica em um arquivo, permitindo saltar para diferentes partes do arquivo.
 	fseek(arquivoCasos, -1 * sizeof(triagem), SEEK_END);
+	//com os parametros acima, o cursor foi movido para a última linha do arquivo CLIENTES.DAT
 
+	//fread é usada para ler um bloco de dados de um arquivo
+	//com o cursos movido para a última linha do arquivo, a função fread lê o último atendimento registrado
 	fread(&ultimoAtendimento, sizeof(triagem), 1, arquivoCasos);
 	if (feof(arquivoCasos)) ultimoAtendimento.codAtendimento = 0;
+	//Se não houver atendimentos registrados, o código do atendimento será 0 provisoriamente
 
+	//Fecha o arquivo CLIENTES.DAT
 	fclose(arquivoCasos);
 
+	//Retorna o código do último atendimento registrado (ou zero) + 1
 	return ultimoAtendimento.codAtendimento + 1;
 };
 
 
-
+//Função para gerar relatório do atendimento
+//Recebe o ponteiro do atendimento como parâmetro
 void gerarRelatorio(triagem* atendimento)
 {
 	printf("\nCod. Atendimento         : %d\n", atendimento->codAtendimento);
@@ -474,64 +534,75 @@ void gerarRelatorio(triagem* atendimento)
 	printf("Situação Profissional      : %s\n", atendimento->situacaoProfissional);
 	printf("Estado Civil               : %s\n", atendimento->estadoCivil);
 	printf("Possui Filhos              : %s\n", atendimento->temFilhos ? "Sim" : "Não");
-	printf("Qtd. Filhos Morando        : %d\n", atendimento->qtdFilhosMorando);
+	if (atendimento->temFilhos) printf("Qtd. Filhos Morando        : %d\n", atendimento->qtdFilhosMorando);
 	printf("Total Membros Família      : %d\n", atendimento->totalMembrosFamilia);
 	printf("Membro com Deficiência     : %s\n", atendimento->membroFamiliaDeficiencia ? "Sim" : "Não");
 	printf("Membro com TGD             : %s\n", atendimento->membroFamiliarTGD ? "Sim" : "Não");
 	printf("Membro Idoso               : %s\n", atendimento->membroFamiliarIdoso ? "Sim" : "Não");
 	printf("Membro Egresso Prisional   : %s\n", atendimento->membroFamiliarEgressoPrisional ? "Sim" : "Não");
 	printf("Recebe Benefício           : %s\n", atendimento->recebeBeneficio ? "Sim" : "Não");
-	if (atendimento->recebeBeneficio) printf("Valor do Benefício         : %.2f\n", atendimento->valorBeneficio);
-	printf("Valor da Renda             : %.2f\n", atendimento->valorRenda);
-	printf("Total Renda Familiar       : %.2f\n", atendimento->totalRendaFamiliar);
+	if (atendimento->recebeBeneficio) printf("Valor do Benefício         : %d\n", atendimento->valorBeneficio);
+	printf("Valor da Renda             : %d\n", atendimento->valorRenda);
+	printf("Total Renda Familiar       : %d\n", atendimento->totalRendaFamiliar);
 	printf("Possui Gastos Médicos      : %s\n", atendimento->temGastosMedicos ? "Sim" : "Não");
-	if (atendimento->temGastosMedicos) printf("Valor Gastos Médicos       : %.2f\n", atendimento->valorGastosMedicos);
+	if (atendimento->temGastosMedicos) printf("Valor Gastos Médicos       : %d\n", atendimento->valorGastosMedicos);
 	printf("Possui Investimento        : %s\n", atendimento->possuiInvestimento ? "Sim" : "Não");
-	if (atendimento->possuiInvestimento) printf("Valor Investimento         : %.2f\n", atendimento->valorInvestimento);
+	if (atendimento->possuiInvestimento) printf("Valor Investimento         : %d\n", atendimento->valorInvestimento);
 	printf("Possui Casa Própria        : %s\n", atendimento->possuiCasaPropria ? "Sim" : "Não");
-	if (atendimento->possuiCasaPropria) printf("Valor Casa Própria         : %.2f\n", atendimento->valorCasaPropria);
+	if (atendimento->possuiCasaPropria) printf("Valor Casa Própria         : %d\n", atendimento->valorCasaPropria);
 	printf("Possui Apartamento         : %s\n", atendimento->possuiApartamento ? "Sim" : "Não");
-	if (atendimento->possuiApartamento) 	printf("Valor Apartamento          : %.2f\n", atendimento->valorApartamento);
+	if (atendimento->possuiApartamento) 	printf("Valor Apartamento          : %d\n", atendimento->valorApartamento);
 	printf("Possui Terreno             : %s\n", atendimento->possuiTerreno ? "Sim" : "Não");
-	if (atendimento->possuiTerreno) 	printf("Valor Terreno              : %.2f\n", atendimento->valorTerreno);
+	if (atendimento->possuiTerreno) 	printf("Valor Terreno              : %d\n", atendimento->valorTerreno);
 	printf("Possui Imóvel Comercial    : %s\n", atendimento->possuiImovelComercial ? "Sim" : "Não");
-	if (atendimento->possuiImovelComercial) 	printf("Valor Imóvel Comercial     : %.2f\n", atendimento->valorImovelComercial);
+	if (atendimento->possuiImovelComercial) 	printf("Valor Imóvel Comercial     : %d\n", atendimento->valorImovelComercial);
 	printf("Possui Veículo             : %s\n", atendimento->possuiVeiculo ? "Sim" : "Não");
-	if (atendimento->possuiVeiculo) 	printf("Valor Veículo              : %.2f\n", atendimento->valorVeiculo);
+	if (atendimento->possuiVeiculo) 	printf("Valor Veículo              : %d\n", atendimento->valorVeiculo);
 	printf("Demanda Violência Doméstica: %s\n", atendimento->demandaViolenciaDomestica ? "Sim" : "Não");
 	printf("Resumo do Caso             : %s\n", atendimento->resumoCaso);
 	printf("Ramo do Direito            : %s\n", atendimento->ramoDireito);
 	printf("Perfil Enquadrado          : %s\n", atendimento->perfilEnquadrado ? "Sim" : "Não");
 }
 
+//Função para verificar se o perfil do atendido se enquadra nos critérios de atendimento
+//Recebe o ponteiro do atendimento como parâmetro
 void verificarPerfilEnquadrado(triagem* atendimento)
 {
+	//Se a renda familiar for menor ou igual a 3 salários mínimos, o perfil é enquadrado
 	if (atendimento->totalRendaFamiliar <= 3 * salMinimo) {
 		printf("Perfil enquadrado por ter renda familiar menor ou igual que tres salarios minimos\n");
 		atendimento->perfilEnquadrado = true;
 	}
+	//Se a renda familiar for menor ou igual a 4 salários mínimos...
 	else if (atendimento->totalRendaFamiliar <= 4 * salMinimo) {
 		printf("Renda familiar menor ou igual que 4 salarios minimos. Verificando outras condições\n");
+		//o perfil é enquadrado se:
+
+		//o número de membros da família for maior que 5
 		if (atendimento->totalMembrosFamilia > 5)
 		{
 			printf("Número de membros da familia maior que 5. Perfil enquadarado\n");
 			atendimento->perfilEnquadrado = true;
 		}
+		//ou se o atendido tiver gastos médicos 
 		else if (atendimento->temGastosMedicos)
 		{
 			printf("Tem gastos medicos. Perfil enquadarado\n");
 			atendimento->perfilEnquadrado = true;
 		}
+		//ou se o atendido possui membro da família com deficiência ou TGD
 		else if (atendimento->membroFamiliaDeficiencia || atendimento->membroFamiliarTGD)
 		{
 			printf("Membro da familia com deficiencia ou TGD. Perfil enquadarado\n");
 			atendimento->perfilEnquadrado = true;
 		}
+		//ou se o atendido possui membro da família idoso ou egresso prisional e o número de membros da família for maior ou igual a 4.
 		else if ((atendimento->membroFamiliarIdoso || atendimento->membroFamiliarEgressoPrisional) && atendimento->totalMembrosFamilia >= 4)
 		{
 			printf("Membro da familia idoso ou egresso prisional com mais de 4 membros. Perfil enquadarado\n");
 			atendimento->perfilEnquadrado = true;
 		}
+		//Se nenhuma das condições acima for atendida, o perfil não é enquadrado
 		else {
 			printf("Perfil NÃO enquadrado.\n");
 			atendimento->perfilEnquadrado = false;

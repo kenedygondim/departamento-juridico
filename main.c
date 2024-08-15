@@ -21,7 +21,6 @@ int main()
 {
 	setlocale(LC_ALL, ""); //Seta a localização para a padrão do sistema	
 
-
 	//Variáveis
 	int opcao = 1;
 
@@ -50,7 +49,7 @@ int main()
 			realizarTriagem();
 			break;
 		case 2:
-			verificarCasosEmAndamento();
+			mostrarCasosEmAndamento();
 			break;
 		case 3:
 			atribuirEstagiario();
@@ -59,7 +58,7 @@ int main()
 			adicionarEstagiario();
 			break;
 		case 5:
-			verTodosEstagiarios();
+			mostrarTodosEstagiarios();
 			break;
 		case 6:
 			adicionarDisponibilidade();
@@ -68,7 +67,7 @@ int main()
 			agendarAtendimento();
 			break;
 		case 8:
-			verTodosAdvogados();
+			mostrarTodosAdvogados();
 			break;
 		case 9:
 			adicionarAdvogado();

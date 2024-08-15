@@ -62,11 +62,9 @@ typedef struct {
 } triagem;
 
 void realizarTriagem();
-void verificarCasosEmAndamento();
-triagem verificarCasoEspecifico(int codAtendimento);
-int gerarCodAtendimento();
-void gerarDataAtual(char* buffer, size_t size);
-void gerarHoraAtual(char* buffer, size_t size);
+void mostrarCasosEmAndamento();
+triagem retornarCasoEspecifico(int codAtendimento);
+int retornarCodAtendimento();
 void gerarRelatorio(triagem* atendimento);
 void gerarMensagemBoasVindas();
 void verificarPerfilEnquadrado(triagem* atendimento);

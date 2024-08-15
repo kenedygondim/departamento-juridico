@@ -1,7 +1,7 @@
 #define _CRT_SECURE_NO_WARNINGS //desabilita alertas de unsafe
 
 
-//Arquivos
+//Módulos
 #include "advogado.h"
 #include "global.h"
 
@@ -131,7 +131,8 @@ int obterTodosAdvogados()
 }
 
 
-void verTodosAdvogados() {
+// Mostra todos os advogados cadastrados no sistema no console
+void mostrarTodosAdvogados() {
 	int count = obterTodosAdvogados();
 
 	printf("\n-----------LISTA DE ADVOGADOS NO SISTEMA -------------\n");
@@ -153,7 +154,7 @@ void verTodosAdvogados() {
 	free(advogados); //desaloca a memória
 }
 
-Advogado verAdvogadoEspecifico(int oab) {
+Advogado retornarAdvogadoEspecifico(int oab) {
 	int tamanho_vetor = obterTodosAdvogados();
 
 	int inicio = 0, fim = tamanho_vetor - 1, meio;
